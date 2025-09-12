@@ -1,5 +1,6 @@
 
-# 🚀 Dotfiles - Configuração Pessoal do Hyprland + Wayland
+
+# 🚀 Dotfiles - Configuração Pessoal do Arch Linux + Hyprland
 
 Este repositório contém minha configuração completa do Arch Linux com foco em desempenho, estética minimalista e produtividade no ambiente **Hyprland + Wayland**.
 

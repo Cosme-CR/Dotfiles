@@ -1,0 +1,72 @@
+/* Fonte principal, cor clara para boa legibilidade */
+* {
+    font-family: "JetBrainsMono Nerd Font", monospace;
+    font-size: 12px;
+    color: #f0f6ff;
+    background: transparent;
+}
+
+/* Janela da barra totalmente transparente */
+window#waybar {
+    background: transparent;
+    border: none;
+}
+
+/* Blocos com fundo azul escuro translúcido */
+#custom-hypr,
+#clock,
+#custom-power,
+#battery,
+#network,
+#bluetooth,
+#pulseaudio,
+#cpu,
+#memory {
+background-color: rgba(36, 54, 84, 0.85); /* azul escuro translúcido */
+padding: 4px 10px;
+margin: 2px;
+border-radius: 6px;
+color: #f0f6ff;
+}
+
+/* Botão de desligar com cor destacada */
+#custom-power {
+color: #f38ba8;
+}
+
+/* Área dos ícones dos apps */
+#wlr-taskbar {
+background: transparent;
+}
+
+/* Cada botão de app na taskbar */
+#wlr-taskbar button {
+background-color: rgba(36, 54, 84, 0.85);
+color: #f0f6ff;
+padding: 4px 6px;
+margin: 2px;
+border-radius: 6px;
+}
+
+#taskbar button.active {
+background-color: rgba(80, 120, 180, 0.9);
+font-weight: bold;
+}
+
+/*
+#taskbar button {
+background-color: rgba(36, 54, 84, 0.85);
+padding: 4px 6px;
+margin: 2px;
+border-radius: 6px;
+color: #f0f6ff;
+}
+
+
+#taskbar {
+background-color: rgba(36, 54, 84, 0.85);  azul escuro translúcido
+padding: 4px 6px;
+margin: 2px;
+border-radius: 6px;
+}
+*/

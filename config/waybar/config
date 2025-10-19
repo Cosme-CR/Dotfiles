@@ -1,0 +1,104 @@
+{
+  // Define a posição da barra e camada
+  "layer": "top",
+  "position": "top",
+
+  // Módulos à esquerda: ícone do Hyprland e os ícones dos apps ativos (via wlr/taskbar)
+  "modules-left": [
+    "custom/hypr",        // Logo do Hyprland
+    "wlr/taskbar"         // Ícones dos apps abertos
+  ],
+
+  // Módulo central: relógio
+  "modules-center": [
+    "clock"
+  ],
+
+  // Módulos à direita (em ordem visual): RAM, CPU, som, Bluetooth, Wi-Fi, bateria, desligar
+  "modules-right": [
+    "memory",
+    "cpu",
+    "pulseaudio",
+    "bluetooth",
+    "network",
+    "battery",
+    "custom/power"
+  ],
+
+  // Ícone do Hyprland (), sem texto
+  "custom/hypr": {
+    "format": "",
+    "tooltip": false,
+    "on-click": "rofi -show drun -show-icons"
+  },
+
+  // Relógio central com clique que abre o calendário
+  "clock": {
+    "format": "{:%H:%M}",
+    "tooltip": false,
+    "on-click": "gsimplecal"
+  },
+
+  // Botão de desligar (clique normal) ou reiniciar (botão direito)
+  "custom/power": {
+    "format": "⏻",
+    "tooltip": "Clique: Desligar | Direito: Reiniciar",
+    "on-click": "systemctl poweroff",
+    "on-click-right": "systemctl reboot"
+  },
+
+  // Bateria com ícones visuais conforme a carga
+  "battery": {
+    "format": "{icon} {capacity}%",
+    "format-icons": ["", "", "", "", ""],
+    "tooltip": true
+  },
+
+  // Wi-Fi ou cabo com clique para abrir gerenciador de conexões
+  "network": {
+    "format-wifi": "",
+    "format-ethernet": "",
+    "format-disconnected": "睊",
+    "tooltip": true,
+    "on-click": "nm-connection-editor"
+  },
+
+  // Bluetooth com clique para abrir o Blueman
+  "bluetooth": {
+    "format": "",
+    "format-disabled": "",
+    "tooltip": true,
+    "on-click": "blueman-manager"
+  },
+
+  // Volume com ícones dinâmicos e clique que abre o Pavucontrol
+  "pulseaudio": {
+    "format": "{icon} {volume}%",
+    "format-icons": {
+      "default": ["", "", ""]
+    },
+    "tooltip": true,
+    "on-click": "pavucontrol"
+  },
+
+  // CPU com clique que abre o btop no terminal
+  "cpu": {
+    "format": " {usage}%",
+    "tooltip": false,
+    "on-click": "kitty -e btop"
+  },
+
+  // RAM com clique que abre o btop também
+  "memory": {
+    "format": " {used:0.1f}G",
+    "tooltip": false,
+    "on-click": "kitty -e btop"
+  },
+
+  // Barra de ícones dos apps abertos (sem texto)
+  "wlr/taskbar": {
+    "format": "{icon}",
+    "icon-size": 20,
+    "on-click": "activate",
+  }
+}

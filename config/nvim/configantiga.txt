@@ -1,0 +1,121 @@
+-- 🌟 CONFIGURAÇÕES BÁSICAS DO NEOVIM
+
+vim.opt.number = true              -- mostra número das linhas
+vim.opt.relativenumber = true     -- números relativos
+vim.opt.tabstop = 4               -- largura de tabulação
+vim.opt.expandtab = true          -- usa espaços em vez de tabs
+vim.opt.termguicolors = true      -- ativa cores 24 bits
+vim.opt.mouse = "a"               -- ativa o mouse
+vim.opt.clipboard = "unnamedplus" -- usa o clipboard do sistema
+vim.opt.cursorline = true         -- destaca a linha do cursor
+
+-- 🌟 PLUGIN MANAGER: Lazy.nvim
+
+local lazypath = vim.fn.stdpath("config") .. "/lazy/lazy.nvim"
+if not vim.loop.fs_stat(lazypath) then
+  vim.fn.system({
+    "git", "clone", "--filter=blob:none",
+    "https://github.com/folke/lazy.nvim.git", lazypath
+  })
+end
+vim.opt.rtp:prepend(lazypath)
+
+require("lazy").setup({
+  -- Temas
+  "morhetz/gruvbox",  -- antigo (você pode remover se não quiser)
+  { "catppuccin/nvim", name = "catppuccin", priority = 1000 },
+
+  -- Barra de status e ícones
+  "nvim-lualine/lualine.nvim",
+  "nvim-tree/nvim-web-devicons",
+
+  -- File explorer
+  "nvim-tree/nvim-tree.lua",
+
+  -- Autocompletar
+  "hrsh7th/nvim-cmp",
+  "hrsh7th/cmp-nvim-lsp",
+  "hrsh7th/cmp-buffer",
+  "hrsh7th/cmp-path",
+  "hrsh7th/cmp-cmdline",
+  "L3MON4D3/LuaSnip",
+  "saadparwaiz1/cmp_luasnip",
+
+  -- LSP
+  "neovim/nvim-lspconfig",
+
+  -- Syntax highlight
+  { "nvim-treesitter/nvim-treesitter", build = ":TSUpdate" }
+})
+
+-- 🌈 Ativar tema
+vim.cmd.colorscheme "catppuccin"
+
+-- 💡 Lualine (barra de status)
+require("lualine").setup({
+  options = {
+    theme = "catppuccin",
+    icons_enabled = true
+  }
+})
+
+-- 🌲 Treesitter (realce de sintaxe inteligente)
+require("nvim-treesitter.configs").setup({
+  highlight = {
+    enable = true
+  }
+})
+
+-- 🗂️ File Explorer
+require("nvim-tree").setup()
+
+-- Atalho para abrir/fechar o nvim-tree (ex: \e)
+vim.keymap.set("n", "<C-e>", ":NvimTreeToggle<CR>", { noremap = true, silent = true })
+
+
+-- ✨ Autocompletar (nvim-cmp)
+local cmp = require("cmp")
+cmp.setup({
+  snippet = {
+    expand = function(args)
+      require("luasnip").lsp_expand(args.body)
+    end,
+  },
+  mapping = cmp.mapping.preset.insert({
+    ['<Tab>'] = cmp.mapping.select_next_item(),
+    ['<S-Tab>'] = cmp.mapping.select_prev_item(),
+    ['<CR>'] = cmp.mapping.confirm({ select = true }),
+  }),
+  sources = cmp.config.sources({
+    { name = "nvim_lsp" },
+    { name = "luasnip" }
+  }, {
+    { name = "buffer" },
+  })
+})
+
+-- 🔧 LSP
+local lsp = require("lspconfig")
+
+lsp.pyright.setup({})
+lsp.clangd.setup({})
+lsp.html.setup({})
+lsp.cssls.setup({})
+
+
+
+-- 🐍 Rodar Python com F5
+vim.keymap.set("n", "<F5>", function()
+  local file = vim.fn.expand("%")
+  vim.cmd("w") -- salva o arquivo antes
+  vim.cmd("!python " .. file)
+end, { noremap = true, silent = true })
+
+-- 💻 Compilar e rodar C++ com F6
+vim.keymap.set("n", "<F6>", function()
+  local file = vim.fn.expand("%")
+  local output = vim.fn.expand("%:r")  -- nome do arquivo sem extensão
+  vim.cmd("w") -- salva o arquivo antes
+  vim.cmd("!g++ " .. file .. " -o " .. output .. " && ./" .. output)
+end, { noremap = true, silent = true })
+

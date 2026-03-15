@@ -126,6 +126,8 @@ monitor = HDMI-A-1,1920x1080@75,1920x0,1.0
 
 Configuração minimalista e funcional da **Waybar** com tema **Gruvbox**, feita para combinar com o Neovim e otimizar o fluxo de trabalho no **Hyprland**.
 
+![](img/waybar.png)
+
 <details>
 <summary>Detalhes</summary>
 
@@ -208,16 +210,15 @@ pkill waybar && waybar &
 ---
 
 
-
 # Neovim
 
 Configuração simples de **Neovim** feita para estudo e uso diário.
 Os plugins são gerenciados automaticamente usando **lazy.nvim**.
 
+![](img/neovim.png)
+
 <details>
   <summary>Detalhes</summary>
-
-
 
 ---
 
@@ -235,11 +236,6 @@ sudo pacman -S neovim git ripgrep
 sudo apt install neovim git ripgrep
 ```
 
-### Fedora
-
-```bash
-sudo dnf install neovim git ripgrep
-```
 
 Também é recomendado instalar uma **Nerd Font** para que os ícones funcionem corretamente no editor.
 
@@ -249,39 +245,88 @@ Também é recomendado instalar uma **Nerd Font** para que os ícones funcionem 
 
 Esta configuração utiliza os seguintes plugins:
 
-- gruvbox — tema
-    
-- lualine.nvim — barra de status
-    
-- neo-tree.nvim — explorador de arquivos
-    
-- toggleterm.nvim — terminal integrado
-    
-- nvim-autopairs — fechamento automático de parênteses
-    
-- nvim-treesitter — highlight de sintaxe
-    
-- nvim-cmp — autocomplete
-    
-- LuaSnip — snippets
-    
-- telescope.nvim — busca de arquivos e texto
-    
+* gruvbox — tema
+
+* alpha-nvim — dashboard inicial
+
+* lualine.nvim — barra de status
+
+* neo-tree.nvim — explorador de arquivos
+
+* toggleterm.nvim — terminal integrado
+
+* nvim-autopairs — fechamento automático de parênteses
+
+* nvim-treesitter — highlight de sintaxe
+
+* telescope.nvim — busca de arquivos e texto
+
+* nvim-cmp — autocomplete
+
+* LuaSnip — snippets
+
+* gitsigns.nvim — indicadores de alterações do Git
+
+* which-key.nvim — exibe atalhos disponíveis
+
+* indent-blankline.nvim — guias visuais de indentação
 
 Todos os plugins são instalados automaticamente pelo **lazy.nvim**.
 
 ---
 
+## LSP (Language Server)
+
+A configuração utiliza **LSP nativo do Neovim** para fornecer:
+
+* autocompletar
+* navegação de código
+* documentação
+* renomeação de símbolos
+* ações rápidas
+
+Os servidores são instalados automaticamente usando **mason.nvim**.
+
+LSPs incluídos:
+
+* **lua_ls** — suporte para Lua
+* **clangd** — suporte para C / C++
+* **ts_ls** — suporte para JavaScript / TypeScript
+
+---
+
 ## Atalhos principais
 
-|Atalho|Função|
-|---|---|
-|Ctrl + n|Abrir / fechar explorador de arquivos|
-|Ctrl + t|Abrir / fechar terminal|
-|Space + ff|Buscar arquivos|
-|Space + fg|Buscar texto no projeto|
+| Atalho     | Função                                |
+| ---------- | ------------------------------------- |
+| Ctrl + n   | Abrir / fechar explorador de arquivos |
+| Ctrl + t   | Abrir / fechar terminal               |
+| Space + ff | Buscar arquivos                       |
+| Space + fg | Buscar texto no projeto               |
 
 Leader key: `Space`
+
+---
+
+## Atalhos do LSP
+
+| Atalho     | Função               |
+| ---------- | -------------------- |
+| gd         | Ir para definição    |
+| K          | Mostrar documentação |
+| Space + rn | Renomear símbolo     |
+| Space + ca | Code action          |
+
+---
+
+## Atalhos úteis
+
+### Git
+
+| Atalho | Função             |
+| ------ | ------------------ |
+| ]c     | Próxima alteração  |
+| [c     | Alteração anterior |
 
 ---
 
@@ -310,19 +355,6 @@ Na primeira execução o **lazy.nvim** irá instalar todos os plugins automatica
 </details>
 
 ---
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 

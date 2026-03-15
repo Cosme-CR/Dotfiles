@@ -117,6 +117,7 @@ monitor = HDMI-A-1,1920x1080@75,1920x0,1.0
 * Suavização via curvas Bezier
 * Fade, popin, border, layers, workspace transitions
 
+</details>
 
 ---
 
@@ -219,6 +220,7 @@ nvim
 
 Na primeira execução o **lazy.nvim** irá instalar todos os plugins automaticamente.
 
+</details>
 
 ---
 

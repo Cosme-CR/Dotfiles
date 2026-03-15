@@ -122,6 +122,93 @@ monitor = HDMI-A-1,1920x1080@75,1920x0,1.0
 ---
 
 
+# Waybar
+
+Configuração minimalista e funcional da **Waybar** com tema **Gruvbox**, feita para combinar com o Neovim e otimizar o fluxo de trabalho no **Hyprland**.
+
+<details>
+<summary>Detalhes</summary>
+
+---
+
+## Dependências
+
+### Arch Linux
+
+```bash
+sudo pacman -S waybar ttf-jetbrains-mono-nerd network-manager-applet pavucontrol wlogout
+```
+
+```bash
+yay -S wlogout
+```
+
+### Fontes e Ícones
+Para que os ícones (Arch, Bateria, CPU) apareçam corretamente, é necessário instalar uma **Nerd Font**. O comando acima já inclui a `ttf-jetbrains-mono-nerd`, que é a recomendada para esta configuração.
+
+---
+
+## Módulos
+
+Esta configuração utiliza os seguintes módulos organizados para máxima eficiência:
+
+- **Lado Esquerdo**: 
+  - Logo do Arch (``) — Atalho para o lançador de apps.
+  - Workspaces Inteligentes — Mostra apenas os números das áreas de trabalho ativas ou ocupadas.
+- **Centro**: 
+  - Relógio e Data — Com calendário detalhado ao passar o mouse.
+- **Lado Direito**: 
+  - Volume (Pulseaudio) — Clique para abrir o controle de áudio.
+  - Memória RAM — Monitoramento de consumo em tempo real.
+  - CPU — Uso do processador com tooltip detalhado.
+  - GPU — Monitoramento de carga da placa de vídeo (Nvidia).
+  - Rede/Wi-Fi — Mostra o IP Local ao passar o mouse.
+  - Bateria — Ícones dinâmicos que mudam conforme a carga.
+  - Botão Power (``) — Abre o menu de desligamento seguro.
+
+---
+
+## Atalhos e Interações
+
+| Módulo | Ação | Função |
+| :--- | :--- | :--- |
+| **Logo Arch** | Clique | Abre o Rofi / Lançador de Apps |
+| **Workspaces** | Clique | Alterna entre áreas de trabalho |
+| **Volume** | Clique | Abre o Pavucontrol (Mixer de Áudio) |
+| **Rede** | Hover | Mostra o IP Local do computador |
+| **Power** | Clique | Abre o menu de desligamento (wlogout) |
+
+---
+
+## Instalação
+
+Crie a pasta de configuração da Waybar:
+
+```bash
+mkdir -p ~/.config/waybar
+```
+
+Coloque os arquivos `config` e `style.css` dentro da pasta:
+
+```bash
+~/.config/waybar/config
+~/.config/waybar/style.css
+```
+
+Para aplicar as mudanças, reinicie a Waybar:
+
+```bash
+pkill waybar && waybar &
+```
+
+</details>
+
+
+
+---
+
+
+
 # Neovim
 
 Configuração simples de **Neovim** feita para estudo e uso diário.
@@ -162,7 +249,7 @@ Também é recomendado instalar uma **Nerd Font** para que os ícones funcionem 
 
 Esta configuração utiliza os seguintes plugins:
 
-- catppuccin — tema
+- gruvbox — tema
     
 - lualine.nvim — barra de status
     
@@ -223,5 +310,19 @@ Na primeira execução o **lazy.nvim** irá instalar todos os plugins automatica
 </details>
 
 ---
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 

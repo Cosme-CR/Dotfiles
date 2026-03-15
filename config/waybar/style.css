@@ -1,72 +1,104 @@
-/* Fonte principal, cor clara para boa legibilidade */
+/* Cores Gruvbox */
+@define-color bg #282828;
+@define-color fg #ebdbb2;
+@define-color red #cc241d;
+@define-color green #98971a;
+@define-color yellow #d79921;
+@define-color blue #458588;
+@define-color purple #b16286;
+@define-color aqua #689d6a;
+@define-color gray #a89984;
+
 * {
-    font-family: "JetBrainsMono Nerd Font", monospace;
-    font-size: 12px;
-    color: #f0f6ff;
-    background: transparent;
-}
-
-/* Janela da barra totalmente transparente */
-window#waybar {
-    background: transparent;
+    font-family: "JetBrainsMono Nerd Font", "Roboto", "Helvetica", "Arial", sans-serif;
+    font-size: 13px;
     border: none;
+    border-radius: 0;
 }
 
-/* Blocos com fundo azul escuro translúcido */
-#custom-hypr,
+window#waybar {
+    background-color: @bg;
+    color: @fg;
+    border-bottom: 2px solid @gray;
+}
+
+#custom-arch {
+    color: @blue;
+    padding: 0 10px;
+    font-size: 18px;
+}
+
+#workspaces button {
+    padding: 0 10px;
+    background-color: transparent;
+    color: @fg;
+    font-size: 16px;
+}
+
+#workspaces button.active {
+    background-color: @blue;
+    color: @bg;
+}
+
+#workspaces button:hover {
+    background-color: @gray;
+    color: @bg;
+}
+
 #clock,
-#custom-power,
 #battery,
-#network,
-#bluetooth,
-#pulseaudio,
 #cpu,
-#memory {
-background-color: rgba(36, 54, 84, 0.85); /* azul escuro translúcido */
-padding: 4px 10px;
-margin: 2px;
-border-radius: 6px;
-color: #f0f6ff;
-}
-
-/* Botão de desligar com cor destacada */
+#memory,
+#custom-gpu,
+#network,
+#pulseaudio,
+#bluetooth,
 #custom-power {
-color: #f38ba8;
+    padding: 0 10px;
+    margin: 0 5px;
 }
 
-/* Área dos ícones dos apps */
-#wlr-taskbar {
-background: transparent;
+#clock {
+    color: @yellow;
 }
 
-/* Cada botão de app na taskbar */
-#wlr-taskbar button {
-background-color: rgba(36, 54, 84, 0.85);
-color: #f0f6ff;
-padding: 4px 6px;
-margin: 2px;
-border-radius: 6px;
+#battery {
+    color: @green;
 }
 
-#taskbar button.active {
-background-color: rgba(80, 120, 180, 0.9);
-font-weight: bold;
+#battery.warning {
+    color: @yellow;
 }
 
-/*
-#taskbar button {
-background-color: rgba(36, 54, 84, 0.85);
-padding: 4px 6px;
-margin: 2px;
-border-radius: 6px;
-color: #f0f6ff;
+#battery.critical {
+    color: @red;
 }
 
-
-#taskbar {
-background-color: rgba(36, 54, 84, 0.85);  azul escuro translúcido
-padding: 4px 6px;
-margin: 2px;
-border-radius: 6px;
+#cpu {
+    color: @blue;
 }
-*/
+
+#memory {
+    color: @purple;
+}
+
+#custom-gpu {
+    color: @aqua;
+}
+
+#network {
+    color: @aqua;
+}
+
+#pulseaudio {
+    color: @yellow;
+}
+
+#bluetooth {
+    color: @blue;
+}
+
+#custom-power {
+    color: @red;
+    font-size: 16px;
+}

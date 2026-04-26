@@ -126,7 +126,7 @@ monitor = HDMI-A-1,1920x1080@75,1920x0,1.0
 
 Configuração minimalista e funcional da **Waybar** com tema **Gruvbox**, feita para combinar com o Neovim e otimizar o fluxo de trabalho no **Hyprland**.
 
-![](img/waybar.png)
+![](img/waybarw.png)
 
 <details>
 <summary>Detalhes</summary>

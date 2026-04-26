@@ -1,375 +1,334 @@
 -------------------------------------------------------------------------------
--- BÁSICo
+-- CONFIGURAÇÃO DO NEOVIM 
 -------------------------------------------------------------------------------
 
--- Mostra número das linhas
-vim.opt.number = true
+-- 1. OPÇÕES BÁSICAS
+vim.opt.number          = true
+--vim.opt.relativenumber  = true
+vim.opt.clipboard       = "unnamedplus"
+vim.opt.mouse           = "a"
+vim.opt.termguicolors   = true
+vim.g.mapleader         = " "
 
--- Mostra número relativo (bom para navegação)
---vim.opt.relativenumber = true
-
--- Usa clipboard do sistema
-vim.opt.clipboard = "unnamedplus"
-
--- Habilita mouse
-vim.opt.mouse = "a"
-
--- Habilita cores truecolor
-vim.opt.termguicolors = true
-
--- Define leader key como espaço
-vim.g.mapleader = " "
-
--- Configuração de tabulação
-vim.opt.expandtab = true   -- converte TAB em espaços
-vim.opt.tabstop = 4        -- tamanho do TAB
-vim.opt.shiftwidth = 4     -- identação
+vim.opt.expandtab = true
+vim.opt.tabstop = 4
+vim.opt.shiftwidth = 4
 vim.opt.softtabstop = 4
 
--------------------------------------------------------------------------------
--- INSTALA AUTOMÁTICAMENTE O LAZY.NVIM (GERENCIADOR DE PLUGINS)
--------------------------------------------------------------------------------
-
+-- 2. LAZY.NVIM (Instalação Automática)
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
-
--- Se lazy.nvim não existir ele será clonado
 if not vim.loop.fs_stat(lazypath) then
   vim.fn.system({
-    "git",
-    "clone",
-    "--filter=blob:none",
+    "git", "clone", "--filter=blob:none",
     "https://github.com/folke/lazy.nvim.git",
-    "--branch=stable",
-    lazypath
-  })
+    "--branch=stable", lazypath } )
 end
-
--- Adiciona lazy ao runtimepath
 vim.opt.rtp:prepend(lazypath)
 
--------------------------------------------------------------------------------
 -- 3. PLUGINS
--------------------------------------------------------------------------------
-
 require("lazy").setup({
-
-  ---------------------------------------------------------------------------
-  -- TEMA: GRUVBOX
-  ---------------------------------------------------------------------------
+  -- TEMA: Gruvbox
   {
-    "ellisonleao/gruvbox.nvim",
-    priority = 1000,
-    config = function()
+  "ellisonleao/gruvbox.nvim",
+  priority = 1000,
+  config = function()
+    require("gruvbox").setup({
+      contrast = "hard", -- opções: "soft", "medium", "hard"
+      
+      palette_overrides = {},
+      overrides = {},
+      
+      bold = true,
+      italic = {
+        strings = false,
+        emphasis = false,
+        comments = false,
+        operators = false,
+        folds = false,
+      },
+      
+      transparent_mode = false,
+    })
 
-      -- define background escuro
-      vim.o.background = "dark"
+    vim.cmd("colorscheme gruvbox")
+  end
+},
 
-      -- ativa modo transparente
-      require("gruvbox").setup({
-        transparent_mode = true
-      })
+  -- TEMA: Catppuccin
 
-      -- aplica o tema
-      vim.cmd.colorscheme("gruvbox")
-    end
-  },
-
-  ---------------------------------------------------------------------------
-  -- DASHBOARD INICIAL
-  ---------------------------------------------------------------------------
+--[[
   {
-    "goolord/alpha-nvim",
-    dependencies = { "nvim-tree/nvim-web-devicons" },
+  "catppuccin/nvim",
+  name = "catppuccin",
+  priority = 1000,
+  config = function()
+    require("catppuccin").setup({
+      flavour = "mocha", -- mais contraste
 
-    config = function()
-      local alpha = require("alpha")
-      local dashboard = require("alpha.themes.dashboard")
+      transparent_background = false, -- IMPORTANTE: aumenta contraste real
 
-      -- Arte ASCII do header
-      dashboard.section.header.val = {
-          [[      .--.                                                                  .--.      ]],
-          [[     |o_o |          ██████╗  ██████╗  ██████╗   █████╗  ███████╗          |o_o |     ]],
-          [[     |:_/ |         ██╔════╝ ██╔═══██╗ ██╔══██╗ ██╔══██╗ ██╔════╝          |:_/ |     ]],
-          [[    //   \ \        ██║      ██║   ██║ ██║  ██║ ███████║ ███████╗         //   \ \    ]],
-          [[   (|     | )       ██║      ██║   ██║ ██║  ██║ ██╔══██║ ╚════██║        (|     | )   ]],
-          [[  /'\_   _/`\       ╚██████╗ ╚██████╔╝ ██████╔╝ ██║  ██║ ███████║       /'\_   _/`\   ]],
-          [[  \___)=(___/________╚═════╝__╚═════╝__╚═════╝__╚═╝__╚═╝_╚══════╝_______\___)=(___/  ]],
-      }
+      dim_inactive = {
+        enabled = false,
+      },
 
+      styles = {
+        comments = {},
+        conditionals = {},
+      },
 
-
-
-      -- Botões do dashboard
-      dashboard.section.buttons.val = {
-        dashboard.button("f", "  Buscar Arquivo", ":Telescope find_files <CR>"),
-        dashboard.button("e", "  Novo Arquivo", ":ene <BAR> startinsert <CR>"),
-        dashboard.button("r", "  Arquivos Recentes", ":Telescope oldfiles <CR>"),
-        dashboard.button("q", "  Sair", ":qa<CR>"),
-      }
-
-      alpha.setup(dashboard.opts)
-    end
-  },
-
-
-  --Gitsigns (mostra alterações do Git na lateral)
-  {
-    "lewis6991/gitsigns.nvim",
-    config = function()
-      require("gitsigns").setup({
-        signs = {
-          add          = { text = "+" },
-          change       = { text = "~" },
-          delete       = { text = "_" },
-          topdelete    = { text = "‾" },
-          changedelete = { text = "~" },
+      integrations = {
+        treesitter = true,
+        native_lsp = {
+          enabled = true,
         },
-      })
+      },
+    })
+
+    vim.cmd.colorscheme("catppuccin")
+  end
+},
+
+]]--#region
+
+
+    {
+  "catppuccin/nvim",
+  name = "catppuccin",
+  priority = 1000,
+  config = function()
+    require("catppuccin").setup({
+      flavour = "mocha",
+
+      transparent_background = false,
+
+      dim_inactive = {
+        enabled = false,
+      },
+
+      styles = {
+        comments = { "bold" }, -- comentários mais visíveis
+        conditionals = { "bold" },
+        keywords = { "bold" },
+      },
+
+      color_overrides = {
+        mocha = {
+          -- fundo mais profundo
+          base = "#1a1c2b",
+          mantle = "#181926",
+          crust = "#11111b",
+
+          -- texto mais forte
+          text = "#ffffff",
+          subtext1 = "#e6e9ff",
+          subtext0 = "#cdd6f4",
+
+          -- cores MUITO mais vivas
+          blue   = "#6ea8ff",
+          red    = "#ff6b6b",
+          green  = "#8be28b",
+          yellow = "#ffd166",
+          mauve  = "#c77dff",
+          teal   = "#5fd7ff",
+          peach  = "#ff9f43",
+        },
+      },
+
+      highlight_overrides = {
+        mocha = function(colors)
+          return {
+            Normal = { fg = colors.text, bg = colors.base },
+
+            Comment = { fg = "#7a819c", italic = false }, -- visível mas não apagado
+
+            Keyword = { fg = colors.mauve, bold = true },
+            String  = { fg = colors.green },
+            Function= { fg = colors.blue, bold = true },
+            Variable= { fg = colors.text },
+
+            -- LSP
+            DiagnosticError = { fg = colors.red, bold = true },
+            DiagnosticWarn  = { fg = colors.yellow, bold = true },
+            DiagnosticInfo  = { fg = colors.blue },
+            DiagnosticHint  = { fg = colors.teal },
+          }
+        end
+      },
+
+      integrations = {
+        treesitter = true,
+        native_lsp = {
+          enabled = true,
+        },
+      },
+    })
+
+    vim.cmd.colorscheme("catppuccin")
+  end
+},
+
+  -- DASHBOARD: Alpha-nvim
+  {
+    'goolord/alpha-nvim',
+    dependencies = { 'nvim-tree/nvim-web-devicons' },
+    config = function ()
+        local alpha = require('alpha')
+        local dashboard = require('alpha.themes.dashboard')
+        dashboard.section.header.val = {
+            [[      .--.                                                                  .--.      ]],
+            [[     |o_o |          ██████╗  ██████╗  ██████╗   █████╗  ███████╗          |o_o |     ]],
+            [[     |:_/ |         ██╔════╝ ██╔═══██╗ ██╔══██╗ ██╔══██╗ ██╔════╝          |:_/ |     ]],
+            [[    //   \ \        ██║      ██║   ██║ ██║  ██║ ███████║ ███████╗         //   \ \    ]],
+            [[   (|     | )       ██║      ██║   ██║ ██║  ██║ ██╔══██║ ╚════██║        (|     | )   ]],
+            [[  /'\_   _/`\       ╚██████╗ ╚██████╔╝ ██████╔╝ ██║  ██║ ███████║       /'\_   _/`\   ]],
+            [[  \___)=(___/________╚═════╝__╚═════╝__╚═════╝__╚═╝__╚═╝_╚══════╝_______\___)=(___/  ]],
+        }
+        dashboard.section.buttons.val = {
+            dashboard.button("f", "  Buscar Arquivo", ":Telescope find_files <CR>"),
+            dashboard.button("e", "  Novo Arquivo", ":ene <BAR> startinsert <CR>"),
+            dashboard.button("r", "  Arquivos Recentes", ":Telescope oldfiles <CR>"),
+            dashboard.button("q", "  Sair", ":qa<CR>"),
+        }
+        alpha.setup(dashboard.opts)
     end
   },
 
-
-
-  --Which-key (mostra atalhos) Quando pressiona leader (space), ele mostra os comandos disponíveis.
-  {
-    "folke/which-key.nvim",
-    event = "VeryLazy",
+  -- Barra de status (Lualine)
+  { 
+    "nvim-lualine/lualine.nvim",
+    dependencies = { "nvim-tree/nvim-web-devicons" },
     config = function()
-      require("which-key").setup({})
-    end
-  },
-
-
-  --Indent-Blankline (linhas de identação)
-  {
-    "lukas-reineke/indent-blankline.nvim",
-    main = "ibl",
-    config = function()
-      require("ibl").setup({
-        indent = { char = "│" },
-      })
+      require("lualine").setup{ options = { theme = "auto" } }
     end,
   },
 
-  ---------------------------------------------------------------------------
-  -- BARRA DE STATUS
-  ---------------------------------------------------------------------------
-  {
-    "nvim-lualine/lualine.nvim",
-    dependencies = { "nvim-tree/nvim-web-devicons" },
-
-    config = function()
-      require("lualine").setup({
-        options = {
-          theme = "gruvbox"
-        }
-      })
-    end
-  },
-
-  ---------------------------------------------------------------------------
-  -- GERENCIADOR DE ARQUIVOS (MENU LATERAL)
-  ---------------------------------------------------------------------------
-  {
+  -- Menu lateral (Neo-tree)
+  { 
     "nvim-neo-tree/neo-tree.nvim",
     branch = "v2.x",
-
     dependencies = {
       "nvim-lua/plenary.nvim",
       "nvim-tree/nvim-web-devicons",
       "MunifTanjim/nui.nvim",
     },
-
     config = function()
       require("neo-tree").setup({
-
         filesystem = {
-
-          -- não esconder arquivos ocultos
-          filtered_items = {
-            hide_dotfiles = false
-          },
-
-          -- segue o arquivo atual
+          filtered_items = { hide_dotfiles = false },
           follow_current_file = true,
-
-          -- substitui netrw
-          hijack_netrw = true
+          hijack_netrw = true,
         },
-
-        window = {
-          position = "left",
-          width = 35
-        }
-
+        window = { position = "left", width = 35 },
       })
-    end
+    end,
   },
 
-  ---------------------------------------------------------------------------
-  -- TERMINAL INTEGRADO
-  ---------------------------------------------------------------------------
-  {
-    "akinsho/toggleterm.nvim",
-    version = "*",
-    config = true
-  },
+  -- Terminal integrado (ToggleTerm)
+  { "akinsho/toggleterm.nvim", version = "*", config = true },
+ 
 
-  ---------------------------------------------------------------------------
-  -- AUTOPAIRS (FECHA PARÊNTESES AUTOMATICAMENTE)
-  ---------------------------------------------------------------------------
-  {
-    "windwp/nvim-autopairs",
-    config = true
-  },
 
-  ---------------------------------------------------------------------------
-  -- TREESITTER (HIGHLIGHT AVANÇADO)
-  ---------------------------------------------------------------------------
-  {
+
+
+
+  -- Fecha chaves automaticamente (Autopairs)
+  { "windwp/nvim-autopairs", config = true },
+
+  -- Realce de sintaxe (Treesitter)
+  { 
     "nvim-treesitter/nvim-treesitter",
     build = ":TSUpdate",
-
     config = function()
-
-      local ok, ts = pcall(require, "nvim-treesitter.configs")
-
-      if ok then
+      local status, ts = pcall(require, "nvim-treesitter.configs")
+      if status then
         ts.setup({
-
-          -- linguagens instaladas
-          ensure_installed = {
-            "c",
-            "lua",
-            "markdown",
-            "markdown_inline"
+          ensure_installed = { 
+            "c", "lua", "markdown", "markdown_inline","dart",
+            "javascript", "typescript", "html", "css", "json" 
           },
-
-          highlight = {
-            enable = true
-          }
-
+          highlight = { enable = true },
         })
       end
-    end
+    end,
   },
 
-  ---------------------------------------------------------------------------
-  -- TELESCOPE (BUSCA DE ARQUIVOS E TEXTO)
-  ---------------------------------------------------------------------------
+  -- Busca rápida (Telescope)
   {
     "nvim-telescope/telescope.nvim",
     branch = "0.1.x",
-
-    dependencies = {
-      "nvim-lua/plenary.nvim"
-    },
-
+    dependencies = { "nvim-lua/plenary.nvim" },
     config = function()
-
-      require("telescope").setup({
-
+      require('telescope').setup({
         defaults = {
           preview = {
-            treesitter = false
+            treesitter = false,
           }
         }
-
       })
-
     end
   },
 
-  ---------------------------------------------------------------------------
-  -- MASON (INSTALADOR DE LSP)
-  ---------------------------------------------------------------------------
+  -- 4. LSP E AUTOCOMPLETE
   {
     "williamboman/mason.nvim",
-
     config = function()
       require("mason").setup()
-    end
+    end,
   },
-
-  ---------------------------------------------------------------------------
-  -- INTEGRAÇÃO MASON + LSPCONFIG
-  ---------------------------------------------------------------------------
   {
     "williamboman/mason-lspconfig.nvim",
-
-    dependencies = {
-      "williamboman/mason.nvim"
-    },
-
+    dependencies = { "williamboman/mason.nvim" },
     config = function()
-
       require("mason-lspconfig").setup({
-
-        -- servidores LSP instalados automaticamente
-        ensure_installed = {
-          "lua_ls",
-          "clangd",
-          "ts_ls"
-        }
-
+        ensure_installed = { "lua_ls", "clangd", "ts_ls" },
       })
-
-    end
+    end,
   },
-
-  ---------------------------------------------------------------------------
-  -- CONFIGURAÇÃO DOS LSP
-  ---------------------------------------------------------------------------
   {
     "neovim/nvim-lspconfig",
-
-    dependencies = {
-      "williamboman/mason-lspconfig.nvim",
-      "hrsh7th/cmp-nvim-lsp"
-    },
-
+    dependencies = { "williamboman/mason-lspconfig.nvim", "hrsh7th/cmp-nvim-lsp" },
     config = function()
-
-      -- capacidades do autocomplete
-      local capabilities = require("cmp_nvim_lsp").default_capabilities()
-
-      -- servidores LSP utilizados
-      local servers = {
-        "lua_ls",
-        "clangd",
-        "ts_ls"
-      }
-
-      -- loop que ativa todos os servidores
+      local capabilities = require('cmp_nvim_lsp').default_capabilities()
+      local servers = { "lua_ls", "clangd", "ts_ls" }
+      
       for _, lsp in ipairs(servers) do
-
         if vim.lsp.config then
-
-          -- API nova do Neovim 0.11+
-          vim.lsp.config(lsp, {
-            capabilities = capabilities
-          })
-
+          vim.lsp.config(lsp, { capabilities = capabilities })
           vim.lsp.enable(lsp)
-
         else
-
-          -- API antiga
-          require("lspconfig")[lsp].setup({
-            capabilities = capabilities
-          })
-
+          require('lspconfig')[lsp].setup({ capabilities = capabilities })
         end
       end
-    end
+    end,
   },
 
-  ---------------------------------------------------------------------------
-  -- AUTOCOMPLETE (Nvim-cmp)
-  ---------------------------------------------------------------------------
+  -- FLUTTER TOOLS 
+  -- Adicione isso na lista de plugins
+  {
+    'nvim-flutter/flutter-tools.nvim',
+    lazy = false,
+    dependencies = {
+      'nvim-lua/plenary.nvim',
+      'stevearc/dressing.nvim', -- Melhora a interface de seleção
+    },
+    config = function()
+      require("flutter-tools").setup({
+        lsp = {
+          color = { enabled = true },
+          settings = {
+            showTodos = true,
+            completeFunctionCalls = true,
+          }
+        }
+      })
+    end,
+  },
+
+
+
+
   {
     "hrsh7th/nvim-cmp",
-
     dependencies = {
       "hrsh7th/cmp-nvim-lsp",
       "hrsh7th/cmp-buffer",
@@ -377,94 +336,135 @@ require("lazy").setup({
       "saadparwaiz1/cmp_luasnip",
       "L3MON4D3/LuaSnip",
     },
-
     config = function()
-
-      local cmp = require("cmp")
-
+      local cmp = require'cmp'
       cmp.setup({
-
-        -- suporte a snippets
         snippet = {
-          expand = function(args)
-            require("luasnip").lsp_expand(args.body)
-          end
+          expand = function(args) require('luasnip').lsp_expand(args.body) end,
         },
-
-        -- atalhos do autocomplete
         mapping = cmp.mapping.preset.insert({
-
-          ["<C-Space>"] = cmp.mapping.complete(),
-          ["<CR>"] = cmp.mapping.confirm({ select = true }),
-
-          ["<Tab>"] = cmp.mapping.select_next_item(),
-          ["<S-Tab>"] = cmp.mapping.select_prev_item(),
-
+          ['<C-Space>'] = cmp.mapping.complete(),
+          ['<CR>']      = cmp.mapping.confirm({ select = true }),
+          ['<Tab>']     = cmp.mapping.select_next_item(),
+          ['<S-Tab>']   = cmp.mapping.select_prev_item(),
         }),
-
-        -- fontes de sugestão
         sources = cmp.config.sources({
-
-          { name = "nvim_lsp" },
-          { name = "buffer" },
-          { name = "path" },
-
+          { name = 'nvim_lsp' },
+          { name = 'buffer' },
+          { name = 'path' },
         })
-
       })
-    end
+    end,
   },
-
 })
 
--------------------------------------------------------------------------------
--- 4. TRANSPARÊNCIA MANUAL
--------------------------------------------------------------------------------
+-- 4. CONFIGURAÇÃO INICIAL DO TEMA
+vim.o.background = "dark"
+vim.cmd.colorscheme "catppuccin"
 
-vim.api.nvim_set_hl(0, "Normal", { bg = "none" })
-vim.api.nvim_set_hl(0, "NormalNC", { bg = "none" })
-vim.api.nvim_set_hl(0, "EndOfBuffer", { bg = "none" })
-vim.api.nvim_set_hl(0, "SignColumn", { bg = "none" })
-vim.api.nvim_set_hl(0, "LineNr", { bg = "none" })
+-- Função para aplicar transparência (chamada após trocar o tema)
+local function apply_transparency()
+  vim.api.nvim_set_hl(0, "Normal", { bg = "none" })
+  vim.api.nvim_set_hl(0, "NormalNC", { bg = "none" })
+  vim.api.nvim_set_hl(0, "EndOfBuffer", { bg = "none" })
+  vim.api.nvim_set_hl(0, "SignColumn", { bg = "none" })
+  vim.api.nvim_set_hl(0, "LineNr", { bg = "none" })
+end
 
--------------------------------------------------------------------------------
--- 5. ATALHOS
--------------------------------------------------------------------------------
+--apply_transparency()
 
--- abrir / fechar explorer
-vim.keymap.set("n", "<C-n>", ":Neotree toggle<CR>", { desc = "Abrir NeoTree" })
-
--- abrir terminal
-vim.keymap.set("n", "<C-t>", ":ToggleTerm<CR>", { desc = "Terminal integrado" })
-
--- buscar arquivos
-vim.keymap.set("n", "<leader>ff", ":Telescope find_files<CR>", { desc = "Buscar arquivos" })
-
--- buscar texto no projeto
-vim.keymap.set("n", "<leader>fg", ":Telescope live_grep<CR>", { desc = "Buscar texto" })
-
--------------------------------------------------------------------------------
--- 6. ATALHOS DO LSP
--------------------------------------------------------------------------------
-
-vim.api.nvim_create_autocmd("LspAttach", {
-
-  callback = function(ev)
-
-    local opts = { buffer = ev.buf }
-
-    -- ir para definição
-    vim.keymap.set("n", "gd", vim.lsp.buf.definition, opts)
-
-    -- documentação
-    vim.keymap.set("n", "K", vim.lsp.buf.hover, opts)
-
-    -- renomear símbolo
-    vim.keymap.set("n", "<leader>rn", vim.lsp.buf.rename, opts)
-
-    -- ações rápidas
-    vim.keymap.set("n", "<leader>ca", vim.lsp.buf.code_action, opts)
-
+-- 5. FUNÇÃO PARA ALTERNAR TEMAS (TOGGLE)
+function _G.toggle_theme()
+  if vim.g.colors_name == "gruvbox" then
+    vim.cmd.colorscheme("catppuccin-frappe")
+    print("Tema: Catppuccin Frappe")
+  else
+    vim.cmd.colorscheme("gruvbox")
+    print("Tema: Gruvbox")
   end
+  --apply_transparency()
+end
 
+-- 6. ATALHOS
+vim.keymap.set('n', '<C-n>', ':Neotree toggle<CR>', { desc = 'Abrir/fechar NeoTree' })
+vim.keymap.set('n', '<C-t>', ':ToggleTerm<CR>',   {desc = 'Abrir/fechar terminal'})
+vim.keymap.set('n', '<leader>ff', ':Telescope find_files<CR>', {desc = 'Buscar arquivos'})
+vim.keymap.set('n', '<leader>fg', ':Telescope live_grep<CR>',  {desc = 'Buscar no conteúdo'})
+
+
+
+
+-- ATALHO PERSONALIZADO FLUTTER: Ctrl+f para Salvar e Reload
+--vim.keymap.set('n', '<C-f>', function()
+  --vim.cmd('write')
+  --vim.cmd('FlutterReload')
+  --print("Salvo e Hot Reload!")
+--end, { desc = 'Salvar e Hot Reload Flutter' })
+
+-- ATALHO PARA INICIAR APP/EMULADOR: leader + fr
+--vim.keymap.set('n', '<leader>fr', ':FlutterRun<CR>', { desc = 'Iniciar Flutter (Emulador/App)' })
+
+
+
+
+
+
+
+
+-- Função para iniciar o emulador e rodar o app Flutter no painel inferior
+local function run_flutter_on_pixel_7()
+  vim.cmd('write') -- Salva o arquivo atual
+  
+  print("Iniciando processo Flutter...")
+
+  -- 1. Comando: Abre emulador -> Espera conexão ADB -> Roda o App
+  -- O 'sleep 5' após o wait-for-device dá uma margem extra para o sistema carregar
+  local cmd = "flutter emulators --launch Pixel_7 && " ..
+              "echo 'Aguardando o dispositivo responder...' && " ..
+              "adb wait-for-device && sleep 5 && " ..
+              "flutter run -d Pixel_7"
+
+  -- 2. Executa via ToggleTerm no painel inferior (horizontal)
+  -- Parâmetros: cmd, id, size, label, direction
+  require("toggleterm").exec(cmd, 1, 15, nil, "horizontal")
+end
+
+-- ATALHO: leader + fr
+vim.keymap.set("n", "<leader>fr", run_flutter_on_pixel_7, { desc = "Iniciar Flutter (Painel Inferior)" })
+
+-- ATALHO: Ctrl + f (Hot Reload)
+vim.keymap.set('n', '<C-f>', function()
+  vim.cmd('write')
+  -- Envia o sinal de reload para o processo do flutter
+  vim.fn.system("pkill -USR1 -f flutter_tools.snapshot")
+  print("Hot Reload enviado!")
+end, { desc = 'Flutter: Save & Reload' })
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+-- Atalho para alternar temas: Spaço + t + h
+vim.keymap.set('n', '<leader>th', ':lua toggle_theme()<CR>', { desc = 'Alternar Gruvbox/Catppuccin' })
+
+-- Atalhos LSP
+vim.api.nvim_create_autocmd("LspAttach", {
+  callback = function(ev)
+    local opts = { buffer = ev.buf }
+    vim.keymap.set("n", "gd", vim.lsp.buf.definition, opts)
+    vim.keymap.set("n", "K", vim.lsp.buf.hover, opts)
+    vim.keymap.set("n", "<leader>rn", vim.lsp.buf.rename, opts)
+    vim.keymap.set("n", "<leader>ca", vim.lsp.buf.code_action, opts)
+  end,
 })
